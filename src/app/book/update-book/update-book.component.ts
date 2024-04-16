@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { Genre } from '../../genre/genre';
 import { GenreService } from '../../genre/genre.service';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-book',
@@ -25,7 +26,8 @@ export class UpdateBookComponent implements OnInit {
     private bookService: BookService,
     private genreService: GenreService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -78,6 +80,7 @@ export class UpdateBookComponent implements OnInit {
       console.log('🚀 ~ UpdateBookComponent ~ updateBook ~ book:', this.book);
       await this.bookService.updateBook(this.id, this.book).then(
         (data) => {
+          this.toastr.success('Update book successfully!', 'Success');
           this.goToBookList();
         },
         (error) => console.log(error)

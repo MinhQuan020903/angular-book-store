@@ -3,6 +3,7 @@ import { Book } from '../book';
 import { BookService } from '../book.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-book-list',
@@ -14,7 +15,11 @@ import { CommonModule } from '@angular/common';
 export default class BookListComponent implements OnInit {
   bookList: Book[];
 
-  constructor(private bookService: BookService, private router: Router) {}
+  constructor(
+    private bookService: BookService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getBookList();
@@ -49,6 +54,7 @@ export default class BookListComponent implements OnInit {
   async deleteBook(id: number) {
     await this.bookService.deleteBook(id).then((data) => {
       console.log(data);
+      this.toastr.success('Delete book successfully!', 'Success');
       this.getBookList();
     });
   }

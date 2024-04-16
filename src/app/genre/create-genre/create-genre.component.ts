@@ -31,6 +31,7 @@ export class CreateGenreComponent implements OnInit {
       .pipe(
         tap((data) => {
           console.log(data);
+          this.toastr.success('Add genre successfully!', 'Success');
           this.goToBookList();
         }),
         catchError((error) => {

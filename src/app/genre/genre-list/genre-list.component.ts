@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Genre } from '../genre';
 import { GenreService } from '../genre.service';
 import { Router } from '@angular/router';
+import { catchError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-genre-list',
@@ -14,7 +16,11 @@ import { Router } from '@angular/router';
 export default class GenreListComponent implements OnInit {
   genreList: Genre[];
 
-  constructor(private genreService: GenreService, private router: Router) {}
+  constructor(
+    private genreService: GenreService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getGenreList();
@@ -25,8 +31,13 @@ export default class GenreListComponent implements OnInit {
   }
 
   deleteGenre(id: number) {
-    this.genreService.deleteGenre(id).then(() => {
-      this.getGenreList();
+    this.genreService.deleteGenre(id).then((res) => {
+      if (res.status !== 200) {
+        this.toastr.error('Error! Cant delete this genre!', 'Error');
+      } else {
+        this.toastr.success('Delete genre successfully!', 'Success');
+        this.getGenreList();
+      }
     });
   }
 

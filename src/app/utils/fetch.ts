@@ -51,5 +51,6 @@ export const putRequest = async ({
 
 export const deleteRequest = async ({ endPoint }: { endPoint: string }) => {
   const res = await axiosClient.delete(endPoint);
+  console.log('🚀 ~ deleteRequest ~ res:', res);
   return res;
 };

@@ -61,6 +61,7 @@ export class CreateBookComponent implements OnInit {
       .createBook(this.book)
       .pipe(
         tap((data) => {
+          this.toastr.success('Add book successfully!', 'Success');
           this.goToBookList();
         }),
         catchError((error) => {
